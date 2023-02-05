@@ -1,10 +1,12 @@
 import socket
 import os
 
+
 def get_local_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
     return s.getsockname()[0]
+
 
 def get_connected_ips():
     local_ip = get_local_ip_address()
@@ -13,11 +15,16 @@ def get_connected_ips():
     ips = result.strip().split("\n")
     return ips
 
-def get_local_interface():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    return s.getsockname()[-1]
 
-# Example usage
-connected_ips = get_connected_ips()
-print(connected_ips)
+def get_local_interface():
+    return "ens3"
+
+
+def main():
+    # Example usage
+    connected_ips = get_connected_ips()
+    print(connected_ips)
+
+
+if __name__ == "__main__":
+    main()
