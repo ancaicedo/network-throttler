@@ -19,7 +19,8 @@ def get_connected_ip():
 
 
 def get_local_interface():
-    return "ens3"
+    interface = os.popen("ip route show | awk  '/default/ {print $5}'").read().strip()
+    return interface
 
 
 def throttle_download_rate_tc(ip_address, rate_kbps):
@@ -34,7 +35,6 @@ def throttle_download_rate_tc(ip_address, rate_kbps):
 
 
 def main():
-    # Example usage
     ip_to_throttle = get_connected_ip()
     print(ip_to_throttle)
     # rate_kbps = 100
