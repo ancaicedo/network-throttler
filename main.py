@@ -3,6 +3,7 @@ import os
 import subprocess
 import time
 
+#curl -sSL https://raw.githubusercontent.com/thombashi/tcconfig/master/scripts/installer.sh | sudo bash
 
 def get_local_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
