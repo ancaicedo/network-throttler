@@ -21,14 +21,14 @@ def get_local_interface():
     return "ens3"
 
 
-def throttle_download_rate(ip_address, rate_kbps):
+def throttle_download_rate_tc(ip_address, rate_kbps):
     """Throttle the download rate of a connection with a specified IP address."""
-    subprocess.run(["tc", "qdisc", "add", "dev", "eth0", "root", "handle", "1:", "htb"], check=True)
+    subprocess.run(["tc", "qdisc", "add", "dev", "ens3", "root", "handle", "1:", "htb"], check=True)
     subprocess.run(
-        ["tc", "class", "add", "dev", "eth0", "parent", "1:", "classid", "1:1", "htb", "rate", f"{rate_kbps}kbps"],
+        ["tc", "class", "add", "dev", "ens3", "parent", "1:", "classid", "1:1", "htb", "rate", f"{rate_kbps}kbps"],
         check=True)
     subprocess.run(
-        ["tc", "filter", "add", "dev", "eth0", "protocol", "ip", "parent", "1:0", "prio", "1", "u32", f"match", "ip",
+        ["tc", "filter", "add", "dev", "ens3", "protocol", "ip", "parent", "1:0", "prio", "1", "u32", f"match", "ip",
          "dst", ip_address, "flowid", "1:1"], check=True)
 
 
@@ -37,7 +37,7 @@ def main():
     ip_to_throttle = get_connected_ip()
     print(ip_to_throttle)
     # rate_kbps = 100
-    # throttle_download_rate(ip_address, rate_kbps)
+    # throttle_download_rate_tc(ip_address, rate_kbps)
     # print(f"Throttled download rate of connection with IP address {ip_address} to {rate_kbps} kilobits per second.")
 
 
